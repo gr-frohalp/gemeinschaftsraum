@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Reservation Gemeinschaftsraum Frohalp</title>
+
+  <style>
+    :root{
+      --bg: #f4f6f5;
+      --bg-soft: #eef2ef;
+      --card: #ffffff;
+
+      --text: #1f2933;
+      --muted: #4b5563;
+
+      --primary: #2f6f5e;
+      --primary-soft: #e3efea;
+
+      --border: rgba(31,41,51,.12);
+      --shadow: 0 10px 30px rgba(31,41,51,.08);
+
+      --radius: 18px;
+      --radius-sm: 14px;
+      --max: 1120px;
+      --pad: 18px;
+    }
+
+    *{ box-sizing:border-box; }
+
+    body{
+      margin:0;
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      color: var(--text);
+      background: linear-gradient(180deg, var(--bg-soft), var(--bg));
+      line-height: 1.55;
+    }
+
+    a{ color: var(--primary); text-decoration:none; }
+    a:hover{ text-decoration:underline; }
+
+    /* ===== Einheitliche Seitenbreite ===== */
+    .container{
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 28px var(--pad) 40px;
+    }
+
+    /* ===== HERO ===== */
+    .hero{
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 26px 24px;
+    }
+
+    .badge{
+      display:inline-block;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: var(--primary-soft);
+      color: var(--primary);
+      font-weight: 600;
+      font-size: 13px;
+    }
+
+    h1{
+      margin: 10px 0 8px;
+      font-size: clamp(24px, 3vw, 34px);
+    }
+
+    .lead{
+      margin:0;
+      max-width: 80ch;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    /* ===== INFO ===== */
+    .info{
+      margin-top: 18px;
+      padding: 16px 18px;
+      background: var(--primary-soft);
+      border-left: 4px solid var(--primary);
+      border-radius: var(--radius-sm);
+      font-size: 14px;
+    }
+
+    .info ul{
+      margin: 10px 0 0 18px;
+      padding:0;
+    }
+
+    .info li{ margin: 6px 0; }
+
+    /* ===== Kategorien ===== */
+    .cats{
+      margin-top: 18px;
+      display:grid;
+      gap:12px;
+    }
+    .cat{
+      background:#fff;
+      border:1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 14px 16px;
+    }
+    .cat .title{
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .cat .meta{
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.45;
+    }
+    .cat .meta b{ color: var(--text); }
+
+    /* ===== ACTIONS ===== */
+    .actions{
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-top: 16px;
+    }
+
+    .btn{
+      padding: 10px 14px;
+      border-radius: 12px;
+      border:1px solid var(--border);
+      background:#fff;
+      color:var(--text);
+      box-shadow: var(--shadow);
+      text-decoration:none;
+      display:inline-flex;
+      gap:8px;
+      align-items:center;
+    }
+
+    .btn.primary{
+      background: var(--primary);
+      color:#fff;
+      border-color: var(--primary);
+    }
+
+    /* ===== KALENDER ===== */
+    .section{
+      margin-top: 26px;
+      background:#fff;
+      border:1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+
+    .section-head{
+      padding: 14px 16px;
+      font-size: 13px;
+      color: var(--muted);
+      background:#fafcfb;
+      border-bottom:1px solid var(--border);
+    }
+
+    .iframe-wrap{
+      padding: 0;
+      margin: 0;
+    }
+
+    iframe{
+      display:block;
+      width:100%;
+      min-height:800px;
+      border:0;
+      margin:0;
+      background:#fff;
+    }
+
+    footer{
+      max-width: var(--max);
+      margin: 18px auto;
+      padding: 0 var(--pad);
+      text-align:center;
+      font-size: 13px;
+      color: var(--muted);
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <section class="hero">
+      <span class="badge">Reservation</span>
+      <h1>Reservation Gemeinschaftsraum Frohalp</h1>
+
+      <p class="lead">
+        Bitte lies die Buchungskonditionen und die Hausordnung sorgfältig durch,
+        bevor du eine Reservation vornimmst.
+      </p>
+
+      <div class="info">
+        <strong>Buchungskonditionen (AGB)</strong>
+        <ul>
+          <li>Reservationen nur für <strong>Bewohner:innen der Siedlung Frohalp</strong></li>
+          <li>Mit der Reservation wird die <strong>Hausordnung</strong> akzeptiert und verbindlich eingehaltet</li>
+          <li>Der Raum darf ausschliesslich während der reservierten Zeit genutzt werden.</li>
+          <li>Der Raum ist sauber und ordnungsgemäss zu übergeben</li>
+          <li>Stornierung bis max. 48 Stunden vor Reservation möglich</li>
+        </ul>
+      </div>
+
+      <!-- KATEGORIEN (aus Nutzungskonzept) -->
+      <div class="info">
+        <strong>Kategorien</strong><br>
+        <span style="color:var(--muted); font-size:13px;">
+          Übersicht der Nutzungsarten
+        </span>
+
+        <div class="cats">
+          <div class="cat">
+            <div class="title">Genossenschaftsanlass</div>
+            <div class="meta">
+              <b>Beschreibung:</b> Veranstaltungen von Genossenschafter:innen für die Genossenschaft (z. B. Samichlaus, Flohmi, Kranzen).<br>
+            </div>
+          </div>
+
+          <div class="cat">
+            <div class="title">Privatanlass</div>
+            <div class="meta">
+              <b>Beschreibung:</b> Geburtstage, Familienfeiern, Brunch, Apéros<br>
+              <b>Dauer:</b> 1 bis 24 Stunden<br>
+              <b>Kosten:</b> CHF 10.– / Stunde (max. CHF 125.–)<br>
+              <b>Bezahlung:</b> Bar bis CHF 20.– in vorhandene Kasse, höhere Beträge innert 10 Tagen per QR-Einzahlungsschein<br>
+            </div>
+          </div>
+
+          <div class="cat">
+            <div class="title">Vorstand / SiKo</div>
+            <div class="meta">
+              <b>Beschreibung:</b> Sitzungen / Treffen für Vorstand und SiKo<br>
+            </div>
+          </div>
+
+          <div class="cat">
+            <div class="title">Spezialnutzung</div>
+            <div class="meta">
+              <b>Beschreibung:</b>Regelmässige Angebote aus der Genossenschaft für die Genossenschaft<br>
+            </div>
+          </div>
+
+          <div class="cat">
+            <div class="title">Spontanbuchung</div>
+            <div class="meta">
+              <b>Beschreibung:</b> Wenn der Raum frei ist, kann er spontan genutzt werden.<br>
+              <b>Dauer:</b> 1 bis 10 Stunden<br>
+              <b>Kosten:</b> CHF 5.– / Stunde<br>
+              <b>Bezahlung:</b> Bar in vorhandene Kasse<br>
+              <b>Spezialkondition:</b> Reservation max. <b>48 Stunden</b> im Voraus
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <a class="btn primary" href="Hausordnung_Gemeinschaftsraum_Frohalp.pdf" target="_blank" rel="noopener">
+          📄 Hausordnung ansehen
+        </a>
+        <a class="btn" href="Hausordnung_Gemeinschaftsraum_Frohalp.pdf" download>
+          ⬇️ Hausordnung herunterladen
+        </a>
+      </div>
+    </section>
+
+    <!-- KALENDER -->
+    <section class="section">
+      <div class="section-head">Reservation – Datum &amp; Zeit auswählen</div>
+      <div class="iframe-wrap">
+        <iframe
+          src="https://app.raumkalender.com/reservation/6938470759da4/Gemeinschaftsraum-Frohalp"
+          loading="lazy">
+        </iframe>
+      </div>
+    </section>
+
+  </div>
+
+  <footer>
+    © Gemeinnützige Baugenossenschaft Heimelig · Gemeinschaftsraum Frohalp
+  </footer>
+
+</body>
+</html>
