@@ -28,6 +28,8 @@
 
     *{ box-sizing:border-box; }
 
+    html{ scroll-behavior: smooth; } /* Anker-Scroll schön weich */
+
     body{
       margin:0;
       font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -130,6 +132,7 @@
       display:inline-flex;
       gap:8px;
       align-items:center;
+      cursor:pointer;
     }
 
     .btn.primary{
@@ -138,6 +141,22 @@
       border-color: var(--primary);
     }
 
+    /* ===== Kopf-Navigation (3 Buttons) ===== */
+    .top-nav{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top: 14px;
+    }
+    .top-nav .btn{
+      box-shadow: none;
+      background: #fff;
+    }
+    .top-nav .btn.primary{
+      box-shadow: none;
+    }
+
+    /* ===== Sections / Cards ===== */
     .section{
       margin-top: 26px;
       background:#fff;
@@ -155,13 +174,17 @@
       border-bottom:1px solid var(--border);
     }
 
+    /* Anker-Ziel: Scroll-Offset, damit nix "klebt" */
+    .anchor-target{
+      scroll-margin-top: 14px;
+    }
+
     /* ===== HORIZONTAL GALLERY (3 sichtbar) ===== */
     .gallery-row{
       position: relative;
       padding: 16px;
     }
 
-    /* 3 Kacheln sichtbar (Desktop) */
     .gallery-track{
       display: grid;
       grid-auto-flow: column;
@@ -173,12 +196,10 @@
       scroll-behavior: smooth;
       -webkit-overflow-scrolling: touch;
 
-      padding-bottom: 6px; /* Platz für ggf. Scrollbar */
+      padding-bottom: 6px;
     }
 
-    .gallery-track::-webkit-scrollbar{
-      height: 10px;
-    }
+    .gallery-track::-webkit-scrollbar{ height: 10px; }
     .gallery-track::-webkit-scrollbar-thumb{
       background: rgba(31,41,51,.18);
       border-radius: 999px;
@@ -220,6 +241,7 @@
       border: 1px solid var(--border);
       border-radius: 999px;
       padding: 6px 10px;
+      pointer-events:none;
     }
 
     .gallery-hint{
@@ -228,7 +250,6 @@
       color: var(--muted);
     }
 
-    /* Pfeile */
     .g-nav{
       position:absolute;
       top: 50%;
@@ -245,18 +266,19 @@
       justify-content:center;
       font-size: 22px;
       color: var(--text);
+      z-index: 2;
     }
     .g-nav.prev{ left: 10px; }
     .g-nav.next{ right: 10px; }
 
-    /* Responsive: 2 sichtbar */
     @media (max-width: 900px){
       .gallery-track{ grid-auto-columns: calc((100% - 1*12px) / 2); }
     }
-    /* Responsive: 1 sichtbar */
     @media (max-width: 560px){
       .gallery-track{ grid-auto-columns: 100%; }
       .g-nav{ display:none; }
+      .top-nav{ gap:8px; }
+      .top-nav .btn{ width:100%; justify-content:center; }
     }
 
     /* ===== LIGHTBOX ===== */
@@ -327,40 +349,17 @@
     }
     .lb-nav.prev{ left: 14px; }
     .lb-nav.next{ right: 14px; }
-    @media (max-width: 560px){
-      .lb-nav{ display:none; }
-    }
 
     /* ===== KALENDER ===== */
     .iframe-wrap{ padding:0; margin:0; }
     iframe{
       display:block;
       width:100%;
-      min-height:800px;
+      min-height:820px;
       border:0;
       margin:0;
       background:#fff;
     }
-
-    /* ===== KALENDER – gleiche Breite wie Galerie ===== */
-.section.calendar{
-  max-width: var(--max);   /* exakt gleiche Breite wie Galerie */
-  margin-left: auto;
-  margin-right: auto;
-  padding: 0;              /* kein Innenabstand */
-}
-
-.section.calendar .section-head{
-  padding: 14px 16px;
-}
-
-.section.calendar iframe{
-  display: block;
-  width: 100%;
-  min-height: 820px;
-  border: 0;
-  margin: 0;
-}
 
     footer{
       max-width: var(--max);
@@ -376,11 +375,19 @@
 <body>
   <div class="container">
 
-    <section class="hero">
+    <!-- ANKER: Hausordnung/Info -->
+    <section class="hero anchor-target" id="hausordnung">
       <span class="badge">Reservation</span>
       <h1>Reservation Gemeinschaftsraum Frohalp</h1>
 
-      <p class="lead">
+      <!-- 3 Buttons im Kopf -->
+      <div class="top-nav" aria-label="Schnellnavigation">
+        <a class="btn primary" href="#hausordnung">📄 Hausordnung</a>
+        <a class="btn" href="#fotogalerie">🖼️ Fotogalerie</a>
+        <a class="btn" href="#reservation">📅 Reservationstool</a>
+      </div>
+
+      <p class="lead" style="margin-top:12px;">
         Bitte lies die Buchungskonditionen und die Hausordnung sorgfältig durch,
         bevor du eine Reservation vornimmst.
       </p>
@@ -398,9 +405,7 @@
 
       <div class="info">
         <strong>Kategorien</strong><br>
-        <span style="color:var(--muted); font-size:13px;">
-          Übersicht der Nutzungsarten
-        </span>
+        <span style="color:var(--muted); font-size:13px;">Übersicht der Nutzungsarten</span>
 
         <div class="cats">
           <div class="cat">
@@ -463,18 +468,21 @@
         <a class="btn" href="Hausordnung_Gemeinschaftsraum_Frohalp.pdf" download>
           ⬇️ Hausordnung herunterladen
         </a>
+        <!-- NEU: Fairplay-Regeln -->
+        <a class="btn" href="fairplay_regeln.png" target="_blank" rel="noopener">
+          🤝 Fairplay-Regeln ansehen
+        </a>
       </div>
     </section>
 
-    <!-- FOTOGALERIE (3 sichtbar, Rest als Slider) -->
-    <section class="section gallery" aria-label="Fotogalerie">
+    <!-- ANKER: Fotogalerie -->
+    <section class="section gallery anchor-target" id="fotogalerie" aria-label="Fotogalerie">
       <div class="section-head">Fotogalerie – Gemeinschaftsraum</div>
 
       <div class="gallery-row">
         <button class="g-nav prev" type="button" aria-label="Zurück">‹</button>
 
         <div class="gallery-track" id="galleryTrack">
-          <!-- Passe die Bildpfade an -->
           <a class="g-item" href="IMG_5313.jpg" data-caption="Gemeinschaftsraum – Übersicht">
             <img src="IMG_5313.jpg" alt="Gemeinschaftsraum – Übersicht" loading="lazy">
           </a>
@@ -506,17 +514,16 @@
       </div>
     </section>
 
-    <!-- KALENDER -->
-<section class="section calendar">
-  <div class="section-head">Reservation – Datum &amp; Zeit auswählen</div>
-  <div class="iframe-wrap">
-    <iframe
-      src="https://app.raumkalender.com/reservation/6938470759da4/Gemeinschaftsraum-Frohalp"
-      loading="lazy">
-    </iframe>
-  </div>
-</section>
-
+    <!-- ANKER: Reservationstool -->
+    <section class="section anchor-target" id="reservation">
+      <div class="section-head">Reservation – Datum &amp; Zeit auswählen</div>
+      <div class="iframe-wrap">
+        <iframe
+          src="https://app.raumkalender.com/reservation/6938470759da4/Gemeinschaftsraum-Frohalp"
+          loading="lazy">
+        </iframe>
+      </div>
+    </section>
 
   </div>
 
@@ -545,23 +552,22 @@
       const btnNext = document.querySelector('.g-nav.next');
 
       function stepSize(){
-        // Scroll um exakt eine "Kachel" weiter (inkl. Gap)
-        const first = track.querySelector('.g-item');
+        const first = track?.querySelector('.g-item');
         if (!first) return 0;
         const styles = getComputedStyle(track);
         const gap = parseFloat(styles.columnGap || styles.gap || 0);
         return first.getBoundingClientRect().width + gap;
       }
 
-      btnPrev.addEventListener('click', () => {
+      btnPrev?.addEventListener('click', () => {
         track.scrollBy({ left: -stepSize(), behavior: 'smooth' });
       });
-      btnNext.addEventListener('click', () => {
+      btnNext?.addEventListener('click', () => {
         track.scrollBy({ left: stepSize(), behavior: 'smooth' });
       });
 
       // ===== Lightbox =====
-      const items = Array.from(document.querySelectorAll('.gallery-track .g-item'));
+      const items = Array.from(document.querySelectorAll('#galleryTrack .g-item'));
       const lb = document.getElementById('lightbox');
       const lbImg = lb.querySelector('.lb-img');
       const lbCap = lb.querySelector('.lb-cap');
@@ -576,7 +582,7 @@
         index = (i + items.length) % items.length;
 
         const a = items[index];
-        const src = a.getAttribute('href');
+        const src = a.getAttribute('href'); // Grossbild
         const caption = a.getAttribute('data-caption') || a.querySelector('img')?.alt || '';
 
         lbImg.src = src;
