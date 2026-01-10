@@ -39,14 +39,12 @@
     a{ color: var(--primary); text-decoration:none; }
     a:hover{ text-decoration:underline; }
 
-    /* ===== Einheitliche Seitenbreite ===== */
     .container{
       max-width: var(--max);
       margin: 0 auto;
       padding: 28px var(--pad) 40px;
     }
 
-    /* ===== HERO ===== */
     .hero{
       background: var(--card);
       border: 1px solid var(--border);
@@ -77,7 +75,6 @@
       font-size: 15px;
     }
 
-    /* ===== INFO ===== */
     .info{
       margin-top: 18px;
       padding: 16px 18px;
@@ -91,10 +88,8 @@
       margin: 10px 0 0 18px;
       padding:0;
     }
-
     .info li{ margin: 6px 0; }
 
-    /* ===== Kategorien ===== */
     .cats{
       margin-top: 18px;
       display:grid;
@@ -117,7 +112,6 @@
     }
     .cat .meta b{ color: var(--text); }
 
-    /* ===== ACTIONS ===== */
     .actions{
       display:flex;
       gap:12px;
@@ -144,7 +138,6 @@
       border-color: var(--primary);
     }
 
-    /* ===== SECTIONS (Karten-Stil) ===== */
     .section{
       margin-top: 26px;
       background:#fff;
@@ -162,12 +155,37 @@
       border-bottom:1px solid var(--border);
     }
 
-    /* ===== GALLERY ===== */
-    .gallery-grid{
-      display:grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 12px;
+    /* ===== HORIZONTAL GALLERY (3 sichtbar) ===== */
+    .gallery-row{
+      position: relative;
       padding: 16px;
+    }
+
+    /* 3 Kacheln sichtbar (Desktop) */
+    .gallery-track{
+      display: grid;
+      grid-auto-flow: column;
+      grid-auto-columns: calc((100% - 2*12px) / 3);
+      gap: 12px;
+
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+
+      padding-bottom: 6px; /* Platz für ggf. Scrollbar */
+    }
+
+    .gallery-track::-webkit-scrollbar{
+      height: 10px;
+    }
+    .gallery-track::-webkit-scrollbar-thumb{
+      background: rgba(31,41,51,.18);
+      border-radius: 999px;
+    }
+    .gallery-track::-webkit-scrollbar-track{
+      background: rgba(31,41,51,.06);
+      border-radius: 999px;
     }
 
     .g-item{
@@ -179,6 +197,7 @@
       background: #fff;
       box-shadow: var(--shadow);
       aspect-ratio: 4 / 3;
+      scroll-snap-align: start;
     }
 
     .g-item img{
@@ -189,10 +208,7 @@
       transform: scale(1.01);
       transition: transform .18s ease;
     }
-
-    .g-item:hover img{
-      transform: scale(1.06);
-    }
+    .g-item:hover img{ transform: scale(1.06); }
 
     .g-item::after{
       content:"🔍";
@@ -212,12 +228,35 @@
       color: var(--muted);
     }
 
-    /* Responsive */
-    @media (max-width: 900px){
-      .gallery-grid{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    /* Pfeile */
+    .g-nav{
+      position:absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 42px;
+      height: 42px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.92);
+      box-shadow: var(--shadow);
+      cursor:pointer;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size: 22px;
+      color: var(--text);
     }
+    .g-nav.prev{ left: 10px; }
+    .g-nav.next{ right: 10px; }
+
+    /* Responsive: 2 sichtbar */
+    @media (max-width: 900px){
+      .gallery-track{ grid-auto-columns: calc((100% - 1*12px) / 2); }
+    }
+    /* Responsive: 1 sichtbar */
     @media (max-width: 560px){
-      .gallery-grid{ grid-template-columns: 1fr; }
+      .gallery-track{ grid-auto-columns: 100%; }
+      .g-nav{ display:none; }
     }
 
     /* ===== LIGHTBOX ===== */
@@ -231,7 +270,6 @@
       background: rgba(0,0,0,.72);
       z-index: 9999;
     }
-
     .lightbox.is-open{ display:flex; }
 
     .lb-figure{
@@ -243,7 +281,6 @@
       align-items:center;
       gap: 10px;
     }
-
     .lb-img{
       max-width: 100%;
       max-height: 78vh;
@@ -251,7 +288,6 @@
       border: 1px solid rgba(255,255,255,.18);
       background: #111;
     }
-
     .lb-cap{
       color: rgba(255,255,255,.92);
       font-size: 14px;
@@ -289,20 +325,14 @@
       align-items:center;
       justify-content:center;
     }
-
     .lb-nav.prev{ left: 14px; }
     .lb-nav.next{ right: 14px; }
-
     @media (max-width: 560px){
       .lb-nav{ display:none; }
     }
 
     /* ===== KALENDER ===== */
-    .iframe-wrap{
-      padding: 0;
-      margin: 0;
-    }
-
+    .iframe-wrap{ padding:0; margin:0; }
     iframe{
       display:block;
       width:100%;
@@ -324,7 +354,6 @@
 </head>
 
 <body>
-
   <div class="container">
 
     <section class="hero">
@@ -347,7 +376,6 @@
         </ul>
       </div>
 
-      <!-- KATEGORIEN (aus Nutzungskonzept) -->
       <div class="info">
         <strong>Kategorien</strong><br>
         <span style="color:var(--muted); font-size:13px;">
@@ -418,35 +446,39 @@
       </div>
     </section>
 
-    <!-- FOTOGALERIE (NEU) -->
-    <section class="section gallery">
+    <!-- FOTOGALERIE (3 sichtbar, Rest als Slider) -->
+    <section class="section gallery" aria-label="Fotogalerie">
       <div class="section-head">Fotogalerie – Gemeinschaftsraum</div>
 
-      <div class="gallery-grid" aria-label="Fotogalerie">
-        <!-- Passe die src/href an deine echten Bilder an -->
-        <a class="g-item" href="img/frohalp-01.jpg" data-caption="Gemeinschaftsraum – Übersicht">
-          <img src="img/frohalp-01.jpg" alt="Gemeinschaftsraum – Übersicht" loading="lazy">
-        </a>
+      <div class="gallery-row">
+        <button class="g-nav prev" type="button" aria-label="Zurück">‹</button>
 
-        <a class="g-item" href="img/frohalp-02.jpg" data-caption="Küche / Theke">
-          <img src="img/frohalp-02.jpg" alt="Küche / Theke" loading="lazy">
-        </a>
+        <div class="gallery-track" id="galleryTrack">
+          <!-- Passe die Bildpfade an -->
+          <a class="g-item" href="img/frohalp-01.jpg" data-caption="Gemeinschaftsraum – Übersicht">
+            <img src="img/frohalp-01.jpg" alt="Gemeinschaftsraum – Übersicht" loading="lazy">
+          </a>
+          <a class="g-item" href="img/frohalp-02.jpg" data-caption="Küche / Theke">
+            <img src="img/frohalp-02.jpg" alt="Küche / Theke" loading="lazy">
+          </a>
+          <a class="g-item" href="img/frohalp-03.jpg" data-caption="Sitzbereich">
+            <img src="img/frohalp-03.jpg" alt="Sitzbereich" loading="lazy">
+          </a>
+          <a class="g-item" href="img/frohalp-04.jpg" data-caption="Tische & Stühle">
+            <img src="img/frohalp-04.jpg" alt="Tische & Stühle" loading="lazy">
+          </a>
+          <a class="g-item" href="img/frohalp-05.jpg" data-caption="Ausstattung / Details">
+            <img src="img/frohalp-05.jpg" alt="Ausstattung / Details" loading="lazy">
+          </a>
+          <a class="g-item" href="img/frohalp-06.jpg" data-caption="Eingangsbereich">
+            <img src="img/frohalp-06.jpg" alt="Eingangsbereich" loading="lazy">
+          </a>
+          <a class="g-item" href="img/frohalp-07.jpg" data-caption="Weitere Ansicht">
+            <img src="img/frohalp-07.jpg" alt="Weitere Ansicht" loading="lazy">
+          </a>
+        </div>
 
-        <a class="g-item" href="img/frohalp-03.jpg" data-caption="Sitzbereich">
-          <img src="img/frohalp-03.jpg" alt="Sitzbereich" loading="lazy">
-        </a>
-
-        <a class="g-item" href="img/frohalp-04.jpg" data-caption="Tische & Stühle">
-          <img src="img/frohalp-04.jpg" alt="Tische & Stühle" loading="lazy">
-        </a>
-
-        <a class="g-item" href="img/frohalp-05.jpg" data-caption="Ausstattung / Details">
-          <img src="img/frohalp-05.jpg" alt="Ausstattung / Details" loading="lazy">
-        </a>
-
-        <a class="g-item" href="img/frohalp-06.jpg" data-caption="Eingangsbereich">
-          <img src="img/frohalp-06.jpg" alt="Eingangsbereich" loading="lazy">
-        </a>
+        <button class="g-nav next" type="button" aria-label="Weiter">›</button>
       </div>
 
       <div class="gallery-hint">
@@ -471,7 +503,7 @@
     © 2026 Gemeinnützige Baugenossenschaft Heimelig · Gemeinschaftsraum Frohalp
   </footer>
 
-  <!-- LIGHTBOX (Modal) -->
+  <!-- LIGHTBOX -->
   <div class="lightbox" id="lightbox" aria-hidden="true" role="dialog" aria-label="Bildansicht">
     <button class="lb-close" type="button" aria-label="Schliessen">✕</button>
     <button class="lb-nav prev" type="button" aria-label="Vorheriges Bild">‹</button>
@@ -486,27 +518,49 @@
 
   <script>
     (function(){
-      const items = Array.from(document.querySelectorAll('.gallery-grid .g-item'));
+      // ===== Slider (3 sichtbar) =====
+      const track = document.getElementById('galleryTrack');
+      const btnPrev = document.querySelector('.g-nav.prev');
+      const btnNext = document.querySelector('.g-nav.next');
+
+      function stepSize(){
+        // Scroll um exakt eine "Kachel" weiter (inkl. Gap)
+        const first = track.querySelector('.g-item');
+        if (!first) return 0;
+        const styles = getComputedStyle(track);
+        const gap = parseFloat(styles.columnGap || styles.gap || 0);
+        return first.getBoundingClientRect().width + gap;
+      }
+
+      btnPrev.addEventListener('click', () => {
+        track.scrollBy({ left: -stepSize(), behavior: 'smooth' });
+      });
+      btnNext.addEventListener('click', () => {
+        track.scrollBy({ left: stepSize(), behavior: 'smooth' });
+      });
+
+      // ===== Lightbox =====
+      const items = Array.from(document.querySelectorAll('.gallery-track .g-item'));
       const lb = document.getElementById('lightbox');
-      const img = lb.querySelector('.lb-img');
-      const cap = lb.querySelector('.lb-cap');
-      const btnClose = lb.querySelector('.lb-close');
-      const btnPrev = lb.querySelector('.lb-nav.prev');
-      const btnNext = lb.querySelector('.lb-nav.next');
+      const lbImg = lb.querySelector('.lb-img');
+      const lbCap = lb.querySelector('.lb-cap');
+      const lbClose = lb.querySelector('.lb-close');
+      const lbPrev = lb.querySelector('.lb-nav.prev');
+      const lbNext = lb.querySelector('.lb-nav.next');
 
       let index = 0;
 
       function openAt(i){
         if (!items.length) return;
-
         index = (i + items.length) % items.length;
+
         const a = items[index];
         const src = a.getAttribute('href');
         const caption = a.getAttribute('data-caption') || a.querySelector('img')?.alt || '';
 
-        img.src = src;
-        img.alt = caption;
-        cap.textContent = caption;
+        lbImg.src = src;
+        lbImg.alt = caption;
+        lbCap.textContent = caption;
 
         lb.classList.add('is-open');
         lb.setAttribute('aria-hidden', 'false');
@@ -517,15 +571,14 @@
         lb.classList.remove('is-open');
         lb.setAttribute('aria-hidden', 'true');
         document.body.style.overflow = '';
-        img.src = '';
-        img.alt = '';
-        cap.textContent = '';
+        lbImg.src = '';
+        lbImg.alt = '';
+        lbCap.textContent = '';
       }
 
       function prev(){ openAt(index - 1); }
       function next(){ openAt(index + 1); }
 
-      // Thumbnails
       items.forEach((a, i) => {
         a.addEventListener('click', (e) => {
           e.preventDefault();
@@ -533,17 +586,14 @@
         });
       });
 
-      // Controls
-      btnClose.addEventListener('click', close);
-      btnPrev.addEventListener('click', prev);
-      btnNext.addEventListener('click', next);
+      lbClose.addEventListener('click', close);
+      lbPrev.addEventListener('click', prev);
+      lbNext.addEventListener('click', next);
 
-      // Close on backdrop click
       lb.addEventListener('click', (e) => {
         if (e.target === lb) close();
       });
 
-      // Keyboard
       document.addEventListener('keydown', (e) => {
         if (!lb.classList.contains('is-open')) return;
         if (e.key === 'Escape') close();
