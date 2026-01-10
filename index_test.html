@@ -342,6 +342,26 @@
       background:#fff;
     }
 
+    /* ===== KALENDER – gleiche Breite wie Galerie ===== */
+.section.calendar{
+  max-width: var(--max);   /* exakt gleiche Breite wie Galerie */
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0;              /* kein Innenabstand */
+}
+
+.section.calendar .section-head{
+  padding: 14px 16px;
+}
+
+.section.calendar iframe{
+  display: block;
+  width: 100%;
+  min-height: 820px;
+  border: 0;
+  margin: 0;
+}
+
     footer{
       max-width: var(--max);
       margin: 18px auto;
@@ -487,15 +507,16 @@
     </section>
 
     <!-- KALENDER -->
-    <section class="section">
-      <div class="section-head">Reservation – Datum &amp; Zeit auswählen</div>
-      <div class="iframe-wrap">
-        <iframe
-          src="https://app.raumkalender.com/reservation/6938470759da4/Gemeinschaftsraum-Frohalp"
-          loading="lazy">
-        </iframe>
-      </div>
-    </section>
+<section class="section calendar">
+  <div class="section-head">Reservation – Datum &amp; Zeit auswählen</div>
+  <div class="iframe-wrap">
+    <iframe
+      src="https://app.raumkalender.com/reservation/6938470759da4/Gemeinschaftsraum-Frohalp"
+      loading="lazy">
+    </iframe>
+  </div>
+</section>
+
 
   </div>
 
