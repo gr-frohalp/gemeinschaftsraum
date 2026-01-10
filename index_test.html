@@ -27,8 +27,7 @@
     }
 
     *{ box-sizing:border-box; }
-
-    html{ scroll-behavior: smooth; } /* Anker-Scroll schön weich */
+    html{ scroll-behavior: smooth; }
 
     body{
       margin:0;
@@ -47,6 +46,42 @@
       padding: 28px var(--pad) 40px;
     }
 
+    /* ===== Top Nav (wie Reservationsbuttons) ===== */
+    .top-actions{
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      margin: 0 0 14px 0;     /* zuoberst, vor allem */
+    }
+
+    .btn{
+      padding: 10px 14px;
+      border-radius: 12px;
+      border:1px solid var(--border);
+      background:#fff;
+      color:var(--text);
+      box-shadow: var(--shadow);
+      text-decoration:none;
+      display:inline-flex;
+      gap:8px;
+      align-items:center;
+      cursor:pointer;
+    }
+
+    .btn.primary{
+      background: var(--primary);
+      color:#fff;
+      border-color: var(--primary);
+    }
+
+    @media (max-width: 560px){
+      .top-actions .btn{
+        width: 100%;
+        justify-content: center;
+      }
+    }
+
+    /* ===== HERO ===== */
     .hero{
       background: var(--card);
       border: 1px solid var(--border);
@@ -77,6 +112,7 @@
       font-size: 15px;
     }
 
+    /* ===== INFO ===== */
     .info{
       margin-top: 18px;
       padding: 16px 18px;
@@ -85,13 +121,10 @@
       border-radius: var(--radius-sm);
       font-size: 14px;
     }
-
-    .info ul{
-      margin: 10px 0 0 18px;
-      padding:0;
-    }
+    .info ul{ margin: 10px 0 0 18px; padding:0; }
     .info li{ margin: 6px 0; }
 
+    /* ===== Kategorien ===== */
     .cats{
       margin-top: 18px;
       display:grid;
@@ -103,57 +136,16 @@
       border-radius: var(--radius-sm);
       padding: 14px 16px;
     }
-    .cat .title{
-      font-weight: 700;
-      margin-bottom: 6px;
-    }
-    .cat .meta{
-      color: var(--muted);
-      font-size: 14px;
-      line-height: 1.45;
-    }
+    .cat .title{ font-weight: 700; margin-bottom: 6px; }
+    .cat .meta{ color: var(--muted); font-size: 14px; line-height: 1.45; }
     .cat .meta b{ color: var(--text); }
 
+    /* ===== Actions (PDF/Download) ===== */
     .actions{
       display:flex;
       gap:12px;
       flex-wrap:wrap;
       margin-top: 16px;
-    }
-
-    .btn{
-      padding: 10px 14px;
-      border-radius: 12px;
-      border:1px solid var(--border);
-      background:#fff;
-      color:var(--text);
-      box-shadow: var(--shadow);
-      text-decoration:none;
-      display:inline-flex;
-      gap:8px;
-      align-items:center;
-      cursor:pointer;
-    }
-
-    .btn.primary{
-      background: var(--primary);
-      color:#fff;
-      border-color: var(--primary);
-    }
-
-    /* ===== Kopf-Navigation (3 Buttons) ===== */
-    .top-nav{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      margin-top: 14px;
-    }
-    .top-nav .btn{
-      box-shadow: none;
-      background: #fff;
-    }
-    .top-nav .btn.primary{
-      box-shadow: none;
     }
 
     /* ===== Sections / Cards ===== */
@@ -174,10 +166,8 @@
       border-bottom:1px solid var(--border);
     }
 
-    /* Anker-Ziel: Scroll-Offset, damit nix "klebt" */
-    .anchor-target{
-      scroll-margin-top: 14px;
-    }
+    /* Scroll-Offset für Anker */
+    .anchor-target{ scroll-margin-top: 14px; }
 
     /* ===== HORIZONTAL GALLERY (3 sichtbar) ===== */
     .gallery-row{
@@ -277,8 +267,6 @@
     @media (max-width: 560px){
       .gallery-track{ grid-auto-columns: 100%; }
       .g-nav{ display:none; }
-      .top-nav{ gap:8px; }
-      .top-nav .btn{ width:100%; justify-content:center; }
     }
 
     /* ===== LIGHTBOX ===== */
@@ -375,24 +363,24 @@
 <body>
   <div class="container">
 
-    <!-- ANKER: Hausordnung/Info -->
-    <section class="hero anchor-target" id="hausordnung">
+    <!-- 3 Buttons zuoberst (wie Reservationsbuttons) -->
+    <nav class="top-actions" aria-label="Schnellnavigation">
+      <a class="btn primary" href="#buchungskonditionen">📄 Buchungskonditionen</a>
+      <a class="btn" href="#fotogalerie">🖼️ Fotogalerie</a>
+      <a class="btn" href="#reservation">📅 Reservationstool</a>
+    </nav>
+
+    <section class="hero">
       <span class="badge">Reservation</span>
       <h1>Reservation Gemeinschaftsraum Frohalp</h1>
 
-      <!-- 3 Buttons im Kopf -->
-      <div class="top-nav" aria-label="Schnellnavigation">
-        <a class="btn primary" href="#hausordnung">📄 Hausordnung</a>
-        <a class="btn" href="#fotogalerie">🖼️ Fotogalerie</a>
-        <a class="btn" href="#reservation">📅 Reservationstool</a>
-      </div>
-
-      <p class="lead" style="margin-top:12px;">
+      <p class="lead">
         Bitte lies die Buchungskonditionen und die Hausordnung sorgfältig durch,
         bevor du eine Reservation vornimmst.
       </p>
 
-      <div class="info">
+      <!-- ANKER-ZIEL -->
+      <div class="info anchor-target" id="buchungskonditionen">
         <strong>Buchungskonditionen (AGB)</strong>
         <ul>
           <li>Reservationen nur für <strong>Genossenschafter:innen der Baugenossenschaft Heimelig</strong></li>
@@ -468,7 +456,6 @@
         <a class="btn" href="Hausordnung_Gemeinschaftsraum_Frohalp.pdf" download>
           ⬇️ Hausordnung herunterladen
         </a>
-        <!-- NEU: Fairplay-Regeln -->
         <a class="btn" href="fairplay_regeln.png" target="_blank" rel="noopener">
           🤝 Fairplay-Regeln ansehen
         </a>
@@ -582,7 +569,7 @@
         index = (i + items.length) % items.length;
 
         const a = items[index];
-        const src = a.getAttribute('href'); // Grossbild
+        const src = a.getAttribute('href');
         const caption = a.getAttribute('data-caption') || a.querySelector('img')?.alt || '';
 
         lbImg.src = src;
