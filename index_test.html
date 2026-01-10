@@ -46,41 +46,6 @@
       padding: 28px var(--pad) 40px;
     }
 
-    /* ===== Top Nav (wie Reservationsbuttons) ===== */
-    .top-actions{
-      display:flex;
-      gap:12px;
-      flex-wrap:wrap;
-      margin: 0 0 14px 0;     /* zuoberst, vor allem */
-    }
-
-    .btn{
-      padding: 10px 14px;
-      border-radius: 12px;
-      border:1px solid var(--border);
-      background:#fff;
-      color:var(--text);
-      box-shadow: var(--shadow);
-      text-decoration:none;
-      display:inline-flex;
-      gap:8px;
-      align-items:center;
-      cursor:pointer;
-    }
-
-    .btn.primary{
-      background: var(--primary);
-      color:#fff;
-      border-color: var(--primary);
-    }
-
-    @media (max-width: 560px){
-      .top-actions .btn{
-        width: 100%;
-        justify-content: center;
-      }
-    }
-
     /* ===== HERO ===== */
     .hero{
       background: var(--card);
@@ -90,14 +55,45 @@
       padding: 26px 24px;
     }
 
-    .badge{
-      display:inline-block;
-      padding: 6px 12px;
+    /* ===== Pill-Navigation (ersetzt "Reservation" Badge) ===== */
+    .pill-nav{
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      align-items:center;
+      margin-bottom: 10px; /* Abstand zum H1 */
+    }
+
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding: 10px 16px;
       border-radius: 999px;
-      background: var(--primary-soft);
-      color: var(--primary);
-      font-weight: 600;
-      font-size: 13px;
+      border: 1px solid var(--border);
+      background: #fff;
+      color: var(--text);
+      font-weight: 700;
+      font-size: 18px;
+      text-decoration:none;
+      box-shadow: var(--shadow);
+      line-height: 1;
+    }
+
+    .pill:hover{
+      text-decoration:none;
+      transform: translateY(-1px);
+    }
+
+    .pill.primary{
+      background: var(--primary);
+      border-color: var(--primary);
+      color:#fff;
+    }
+
+    @media (max-width: 560px){
+      .pill-nav{ gap:10px; }
+      .pill{ width:100%; justify-content:center; }
     }
 
     h1{
@@ -121,7 +117,11 @@
       border-radius: var(--radius-sm);
       font-size: 14px;
     }
-    .info ul{ margin: 10px 0 0 18px; padding:0; }
+
+    .info ul{
+      margin: 10px 0 0 18px;
+      padding:0;
+    }
     .info li{ margin: 6px 0; }
 
     /* ===== Kategorien ===== */
@@ -136,16 +136,43 @@
       border-radius: var(--radius-sm);
       padding: 14px 16px;
     }
-    .cat .title{ font-weight: 700; margin-bottom: 6px; }
-    .cat .meta{ color: var(--muted); font-size: 14px; line-height: 1.45; }
+    .cat .title{
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .cat .meta{
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.45;
+    }
     .cat .meta b{ color: var(--text); }
 
-    /* ===== Actions (PDF/Download) ===== */
+    /* ===== ACTIONS ===== */
     .actions{
       display:flex;
       gap:12px;
       flex-wrap:wrap;
       margin-top: 16px;
+    }
+
+    .btn{
+      padding: 10px 14px;
+      border-radius: 12px;
+      border:1px solid var(--border);
+      background:#fff;
+      color:var(--text);
+      box-shadow: var(--shadow);
+      text-decoration:none;
+      display:inline-flex;
+      gap:8px;
+      align-items:center;
+      cursor:pointer;
+    }
+
+    .btn.primary{
+      background: var(--primary);
+      color:#fff;
+      border-color: var(--primary);
     }
 
     /* ===== Sections / Cards ===== */
@@ -363,15 +390,14 @@
 <body>
   <div class="container">
 
-    <!-- 3 Buttons zuoberst (wie Reservationsbuttons) -->
-    <nav class="top-actions" aria-label="Schnellnavigation">
-      <a class="btn primary" href="#buchungskonditionen">📄 Buchungskonditionen</a>
-      <a class="btn" href="#fotogalerie">🖼️ Fotogalerie</a>
-      <a class="btn" href="#reservation">📅 Reservationstool</a>
-    </nav>
-
     <section class="hero">
-      <span class="badge">Reservation</span>
+      <!-- HIER: statt "Reservation" Badge die 3 Pills -->
+      <div class="pill-nav" aria-label="Schnellnavigation">
+        <a class="pill primary" href="#buchungskonditionen">📄 Buchungskonditionen</a>
+        <a class="pill" href="#fotogalerie">🖼️ Fotogalerie</a>
+        <a class="pill" href="#reservation">📅 Reservationstool</a>
+      </div>
+
       <h1>Reservation Gemeinschaftsraum Frohalp</h1>
 
       <p class="lead">
