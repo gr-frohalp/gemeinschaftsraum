@@ -27,6 +27,7 @@
     }
 
     *{ box-sizing:border-box; }
+    html{ scroll-behavior: smooth; }
 
     body{
       margin:0;
@@ -39,7 +40,6 @@
     a{ color: var(--primary); text-decoration:none; }
     a:hover{ text-decoration:underline; }
 
-    /* ===== Einheitliche Seitenbreite ===== */
     .container{
       max-width: var(--max);
       margin: 0 auto;
@@ -55,14 +55,45 @@
       padding: 26px 24px;
     }
 
-    .badge{
-      display:inline-block;
-      padding: 6px 12px;
+    /* ===== Pill-Navigation (ersetzt "Reservation" Badge) ===== */
+    .pill-nav{
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      align-items:center;
+      margin-bottom: 10px; /* Abstand zum H1 */
+    }
+
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding: 10px 16px;
       border-radius: 999px;
-      background: var(--primary-soft);
-      color: var(--primary);
-      font-weight: 600;
-      font-size: 13px;
+      border: 1px solid var(--border);
+      background: #fff;
+      color: var(--text);
+      font-weight: 700;
+      font-size: 18px;
+      text-decoration:none;
+      box-shadow: var(--shadow);
+      line-height: 1;
+    }
+
+    .pill:hover{
+      text-decoration:none;
+      transform: translateY(-1px);
+    }
+
+    .pill.primary{
+      background: var(--primary);
+      border-color: var(--primary);
+      color:#fff;
+    }
+
+    @media (max-width: 560px){
+      .pill-nav{ gap:10px; }
+      .pill{ width:100%; justify-content:center; }
     }
 
     h1{
@@ -91,7 +122,6 @@
       margin: 10px 0 0 18px;
       padding:0;
     }
-
     .info li{ margin: 6px 0; }
 
     /* ===== Kategorien ===== */
@@ -136,6 +166,7 @@
       display:inline-flex;
       gap:8px;
       align-items:center;
+      cursor:pointer;
     }
 
     .btn.primary{
@@ -144,7 +175,7 @@
       border-color: var(--primary);
     }
 
-    /* ===== KALENDER ===== */
+    /* ===== Sections / Cards ===== */
     .section{
       margin-top: 26px;
       background:#fff;
@@ -157,20 +188,190 @@
     .section-head{
       padding: 14px 16px;
       font-size: 13px;
+      font-weight: bold; 
       color: var(--muted);
       background:#fafcfb;
       border-bottom:1px solid var(--border);
     }
 
-    .iframe-wrap{
-      padding: 0;
-      margin: 0;
+    /* Scroll-Offset für Anker */
+    .anchor-target{ scroll-margin-top: 14px; }
+
+    /* ===== HORIZONTAL GALLERY (3 sichtbar) ===== */
+    .gallery-row{
+      position: relative;
+      padding: 16px;
     }
 
+    .gallery-track{
+      display: grid;
+      grid-auto-flow: column;
+      grid-auto-columns: calc((100% - 2*12px) / 3);
+      gap: 12px;
+
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+
+      padding-bottom: 6px;
+    }
+
+    .gallery-track::-webkit-scrollbar{ height: 10px; }
+    .gallery-track::-webkit-scrollbar-thumb{
+      background: rgba(31,41,51,.18);
+      border-radius: 999px;
+    }
+    .gallery-track::-webkit-scrollbar-track{
+      background: rgba(31,41,51,.06);
+      border-radius: 999px;
+    }
+
+    .g-item{
+      position: relative;
+      display:block;
+      border-radius: var(--radius-sm);
+      overflow:hidden;
+      border: 1px solid var(--border);
+      background: #fff;
+      box-shadow: var(--shadow);
+      aspect-ratio: 4 / 3;
+      scroll-snap-align: start;
+    }
+
+    .g-item img{
+      width:100%;
+      height:100%;
+      object-fit: cover;
+      display:block;
+      transform: scale(1.01);
+      transition: transform .18s ease;
+    }
+    .g-item:hover img{ transform: scale(1.06); }
+
+    .g-item::after{
+      content:"🔍";
+      position:absolute;
+      right:10px;
+      bottom:10px;
+      font-size: 14px;
+      background: rgba(255,255,255,.86);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 6px 10px;
+      pointer-events:none;
+    }
+
+    .gallery-hint{
+      padding: 0 16px 16px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .g-nav{
+      position:absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 42px;
+      height: 42px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.92);
+      box-shadow: var(--shadow);
+      cursor:pointer;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size: 22px;
+      color: var(--text);
+      z-index: 2;
+    }
+    .g-nav.prev{ left: 10px; }
+    .g-nav.next{ right: 10px; }
+
+    @media (max-width: 900px){
+      .gallery-track{ grid-auto-columns: calc((100% - 1*12px) / 2); }
+    }
+    @media (max-width: 560px){
+      .gallery-track{ grid-auto-columns: 100%; }
+      .g-nav{ display:none; }
+    }
+
+    /* ===== LIGHTBOX ===== */
+    .lightbox{
+      position: fixed;
+      inset: 0;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding: 18px;
+      background: rgba(0,0,0,.72);
+      z-index: 9999;
+    }
+    .lightbox.is-open{ display:flex; }
+
+    .lb-figure{
+      margin:0;
+      max-width: min(1100px, 92vw);
+      max-height: 86vh;
+      display:flex;
+      flex-direction: column;
+      align-items:center;
+      gap: 10px;
+    }
+    .lb-img{
+      max-width: 100%;
+      max-height: 78vh;
+      border-radius: var(--radius);
+      border: 1px solid rgba(255,255,255,.18);
+      background: #111;
+    }
+    .lb-cap{
+      color: rgba(255,255,255,.92);
+      font-size: 14px;
+      text-align:center;
+      padding: 0 10px;
+    }
+
+    .lb-close{
+      position:absolute;
+      top: 14px;
+      right: 14px;
+      width: 44px;
+      height: 44px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.22);
+      background: rgba(0,0,0,.35);
+      color:#fff;
+      font-size: 18px;
+      cursor:pointer;
+    }
+
+    .lb-nav{
+      position:absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 46px;
+      height: 46px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.22);
+      background: rgba(0,0,0,.35);
+      color:#fff;
+      font-size: 26px;
+      cursor:pointer;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+    .lb-nav.prev{ left: 14px; }
+    .lb-nav.next{ right: 14px; }
+
+    /* ===== KALENDER ===== */
+    .iframe-wrap{ padding:0; margin:0; }
     iframe{
       display:block;
       width:100%;
-      min-height:800px;
+      min-height:820px;
       border:0;
       margin:0;
       background:#fff;
@@ -188,11 +389,16 @@
 </head>
 
 <body>
-
   <div class="container">
 
     <section class="hero">
-      <span class="badge">Reservation</span>
+      <!-- HIER: statt "Reservation" Badge die 3 Pills -->
+      <div class="pill-nav" aria-label="Schnellnavigation">
+        <a class="pill primary" href="#buchungskonditionen">📄 Buchungskonditionen</a>
+        <a class="pill" href="#fotogalerie">🖼️ Fotogalerie</a>
+        <a class="pill" href="#reservation">📅 Reservationstool</a>
+      </div>
+
       <h1>Reservation Gemeinschaftsraum Frohalp</h1>
 
       <p class="lead">
@@ -200,7 +406,8 @@
         bevor du eine Reservation vornimmst.
       </p>
 
-      <div class="info">
+      <!-- ANKER-ZIEL -->
+      <div class="info anchor-target" id="buchungskonditionen">
         <strong>Buchungskonditionen (AGB)</strong>
         <ul>
           <li>Reservationen nur für <strong>Genossenschafter:innen der Baugenossenschaft Heimelig</strong></li>
@@ -211,12 +418,9 @@
         </ul>
       </div>
 
-      <!-- KATEGORIEN (aus Nutzungskonzept) -->
       <div class="info">
         <strong>Kategorien</strong><br>
-        <span style="color:var(--muted); font-size:13px;">
-          Übersicht der Nutzungsarten
-        </span>
+        <span style="color:var(--muted); font-size:13px;">Übersicht der Nutzungsarten</span>
 
         <div class="cats">
           <div class="cat">
@@ -261,17 +465,17 @@
             </div>
           </div>
 
-      <div class="cat">
+          <div class="cat">
             <div class="title">Aufräumen</div>
             <div class="meta">
               <b>Beschreibung:</b> Wenn du am Folgetag deiner Party aufräumen möchtest, kannst du dies ebenfalls eintragen.<br>
               <b>Dauer:</b> Idealerweise am Vormittag bis 10 oder 12 Uhr<br>
-              <b>Kosten:</b> Ist Teil der Pauschalmiete von CHF 125.-
+              <b>Kosten:</b> Ist Teil der Pauschalmiete von CHF 125.–
             </div>
           </div>
         </div>
       </div>
-      
+
       <div class="actions">
         <a class="btn primary" href="Hausordnung_Gemeinschaftsraum_Frohalp.pdf" target="_blank" rel="noopener">
           📄 Hausordnung ansehen
@@ -279,11 +483,59 @@
         <a class="btn" href="Hausordnung_Gemeinschaftsraum_Frohalp.pdf" download>
           ⬇️ Hausordnung herunterladen
         </a>
+        <a class="btn" href="fairplay_regeln.png" target="_blank" rel="noopener">
+          🤝 Fairplay-Regeln ansehen
+        </a>
       </div>
     </section>
 
-    <!-- KALENDER -->
-    <section class="section">
+    <!-- ANKER: Fotogalerie -->
+    <section class="section gallery anchor-target" id="fotogalerie" aria-label="Fotogalerie">
+      <div class="section-head">Fotogalerie – Gemeinschaftsraum</div>
+
+      <div class="gallery-row">
+        <button class="g-nav prev" type="button" aria-label="Zurück">‹</button>
+
+        <div class="gallery-track" id="galleryTrack">
+          <a class="g-item" href="IMG_5321.jpg" data-caption="Gemeinschaftsraum – Übersicht">
+            <img src="IMG_5321.jpg" alt="Gemeinschaftsraum" loading="lazy">
+          </a>
+          <a class="g-item" href="IMG_5307.jpg" data-caption="Tische">
+            <img src="IMG_5307.jpg" alt="Tische" loading="lazy">
+          </a>
+          <a class="g-item" href="IMG_5324.jpg" data-caption="Küche">
+            <img src="IMG_5324.jpg" alt="Küche" loading="lazy">
+          </a>
+          <a class="g-item" href="IMG_5315.jpg" data-caption="Hausordnung & Fairplay">
+            <img src="IMG_5315.jpg" alt="Hausordnung & Fairplay" loading="lazy">
+          </a>
+          <a class="g-item" href="IMG_5319.jpg" data-caption="Kaffeemaschine / Bretter">
+            <img src="IMG_5319.jpg" alt="Kaffeemaschine / Bretter" loading="lazy">
+          </a>
+          <a class="g-item" href="IMG_5312.jpg" data-caption="Stühle / Stuhlkarre">
+            <img src="IMG_5312.jpg" alt="Stühle / Stuhlkarre" loading="lazy">
+          </a>
+          <a class="g-item" href="IMG_5316.jpg" data-caption="Putzregal / Staubsauger">
+            <img src="IMG_5316.jpg" alt="Putzregal / Staubsauger" loading="lazy">
+          </a>
+           <a class="g-item" href="IMG_5327.jpg" data-caption="Übergabeliste">
+            <img src="IMG_5327.jpg" alt="Übergabeliste" loading="lazy">
+          </a> 
+          <a class="g-item" href="IMG_5308.jpg" data-caption="Wischeimer und Mop für alle Räume und Nasszelle">
+            <img src="IMG_5308.jpg" alt="Wischeimer und Mop für alle Räume und Nasszelle" loading="lazy">
+          </a>
+        </div>
+
+        <button class="g-nav next" type="button" aria-label="Weiter">›</button>
+      </div>
+
+      <div class="gallery-hint">
+        Tipp: Klicke auf ein Bild zum Vergrössern. Mit <b>←</b>/<b>→</b> wechseln, <b>ESC</b> schliessen.
+      </div>
+    </section>
+
+    <!-- ANKER: Reservationstool -->
+    <section class="section anchor-target" id="reservation">
       <div class="section-head">Reservation – Datum &amp; Zeit auswählen</div>
       <div class="iframe-wrap">
         <iframe
@@ -298,6 +550,105 @@
   <footer>
     © 2026 Gemeinnützige Baugenossenschaft Heimelig · Gemeinschaftsraum Frohalp
   </footer>
+
+  <!-- LIGHTBOX -->
+  <div class="lightbox" id="lightbox" aria-hidden="true" role="dialog" aria-label="Bildansicht">
+    <button class="lb-close" type="button" aria-label="Schliessen">✕</button>
+    <button class="lb-nav prev" type="button" aria-label="Vorheriges Bild">‹</button>
+
+    <figure class="lb-figure">
+      <img class="lb-img" alt="">
+      <figcaption class="lb-cap" aria-live="polite"></figcaption>
+    </figure>
+
+    <button class="lb-nav next" type="button" aria-label="Nächstes Bild">›</button>
+  </div>
+
+  <script>
+    (function(){
+      // ===== Slider (3 sichtbar) =====
+      const track = document.getElementById('galleryTrack');
+      const btnPrev = document.querySelector('.g-nav.prev');
+      const btnNext = document.querySelector('.g-nav.next');
+
+      function stepSize(){
+        const first = track?.querySelector('.g-item');
+        if (!first) return 0;
+        const styles = getComputedStyle(track);
+        const gap = parseFloat(styles.columnGap || styles.gap || 0);
+        return first.getBoundingClientRect().width + gap;
+      }
+
+      btnPrev?.addEventListener('click', () => {
+        track.scrollBy({ left: -stepSize(), behavior: 'smooth' });
+      });
+      btnNext?.addEventListener('click', () => {
+        track.scrollBy({ left: stepSize(), behavior: 'smooth' });
+      });
+
+      // ===== Lightbox =====
+      const items = Array.from(document.querySelectorAll('#galleryTrack .g-item'));
+      const lb = document.getElementById('lightbox');
+      const lbImg = lb.querySelector('.lb-img');
+      const lbCap = lb.querySelector('.lb-cap');
+      const lbClose = lb.querySelector('.lb-close');
+      const lbPrev = lb.querySelector('.lb-nav.prev');
+      const lbNext = lb.querySelector('.lb-nav.next');
+
+      let index = 0;
+
+      function openAt(i){
+        if (!items.length) return;
+        index = (i + items.length) % items.length;
+
+        const a = items[index];
+        const src = a.getAttribute('href');
+        const caption = a.getAttribute('data-caption') || a.querySelector('img')?.alt || '';
+
+        lbImg.src = src;
+        lbImg.alt = caption;
+        lbCap.textContent = caption;
+
+        lb.classList.add('is-open');
+        lb.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function close(){
+        lb.classList.remove('is-open');
+        lb.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+        lbImg.src = '';
+        lbImg.alt = '';
+        lbCap.textContent = '';
+      }
+
+      function prev(){ openAt(index - 1); }
+      function next(){ openAt(index + 1); }
+
+      items.forEach((a, i) => {
+        a.addEventListener('click', (e) => {
+          e.preventDefault();
+          openAt(i);
+        });
+      });
+
+      lbClose.addEventListener('click', close);
+      lbPrev.addEventListener('click', prev);
+      lbNext.addEventListener('click', next);
+
+      lb.addEventListener('click', (e) => {
+        if (e.target === lb) close();
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (!lb.classList.contains('is-open')) return;
+        if (e.key === 'Escape') close();
+        if (e.key === 'ArrowLeft') prev();
+        if (e.key === 'ArrowRight') next();
+      });
+    })();
+  </script>
 
 </body>
 </html>
